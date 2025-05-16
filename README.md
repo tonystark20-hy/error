@@ -1,43 +1,43 @@
 # error
 
-
-oward@howard-vm:~$ kubectl describe machinedeployment gpu-cluster-md-0
-Name:         gpu-cluster-md-0
+howard@howard-vm:~$ kubectl describe machineset -n default gpu-cluster-md-0-skzzp
+Name:         gpu-cluster-md-0-skzzp
 Namespace:    default
 Labels:       cluster.x-k8s.io/cluster-name=gpu-cluster
-Annotations:  machinedeployment.clusters.x-k8s.io/revision: 1
+              cluster.x-k8s.io/deployment-name=gpu-cluster-md-0
+              machine-template-hash=2814603425-skzzp
+Annotations:  machinedeployment.clusters.x-k8s.io/desired-replicas: 1
+              machinedeployment.clusters.x-k8s.io/max-replicas: 2
+              machinedeployment.clusters.x-k8s.io/revision: 1
 API Version:  cluster.x-k8s.io/v1beta1
-Kind:         MachineDeployment
+Kind:         MachineSet
 Metadata:
-  Creation Timestamp:  2025-05-16T21:22:10Z
+  Creation Timestamp:  2025-05-16T21:22:11Z
   Finalizers:
-    cluster.x-k8s.io/machinedeployment
+    cluster.x-k8s.io/machineset
   Generation:  1
   Owner References:
-    API Version:     cluster.x-k8s.io/v1beta1
-    Kind:            Cluster
-    Name:            gpu-cluster
-    UID:             9b86952e-e1b4-4726-9a09-8c367a3c0c43
-  Resource Version:  5346
-  UID:               0a508710-1c54-47c0-b089-d35b6f38aaaf
+    API Version:           cluster.x-k8s.io/v1beta1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  MachineDeployment
+    Name:                  gpu-cluster-md-0
+    UID:                   0a508710-1c54-47c0-b089-d35b6f38aaaf
+  Resource Version:        5343
+  UID:                     e81d6ad1-e924-4bf2-978f-a3af15e4d99e
 Spec:
-  Cluster Name:               gpu-cluster
-  Min Ready Seconds:          0
-  Progress Deadline Seconds:  600
-  Replicas:                   1
-  Revision History Limit:     1
+  Cluster Name:   gpu-cluster
+  Delete Policy:  Random
+  Replicas:       1
   Selector:
     Match Labels:
       cluster.x-k8s.io/cluster-name:  gpu-cluster
-  Strategy:
-    Rolling Update:
-      Max Surge:        1
-      Max Unavailable:  0
-    Type:               RollingUpdate
+      Machine - Template - Hash:      2814603425-skzzp
   Template:
     Metadata:
       Labels:
         cluster.x-k8s.io/cluster-name:  gpu-cluster
+        Machine - Template - Hash:      2814603425-skzzp
     Spec:
       Bootstrap:
         Config Ref:
@@ -55,42 +55,28 @@ Spec:
 Status:
   Conditions:
     Last Transition Time:  2025-05-16T21:22:11Z
-    Message:               Minimum availability requires 1 replicas, current 0 available
-    Reason:                WaitingForAvailableMachines
-    Severity:              Warning
+    Message:               KubeadmControlPlane default/gpu-cluster-control-plane is provisioning ("ControlPlaneIsStable" preflight check failed)
+    Reason:                PreflightCheckFailed
+    Severity:              Error
     Status:                False
     Type:                  Ready
-    Last Transition Time:  2025-05-16T21:22:11Z
-    Message:               Minimum availability requires 1 replicas, current 0 available
-    Reason:                WaitingForAvailableMachines
-    Severity:              Warning
-    Status:                False
-    Type:                  Available
     Last Transition Time:  2025-05-16T21:22:11Z
     Message:               KubeadmControlPlane default/gpu-cluster-control-plane is provisioning ("ControlPlaneIsStable" preflight check failed)
     Reason:                PreflightCheckFailed
     Severity:              Error
     Status:                False
-    Type:                  MachineSetReady
+    Type:                  MachinesCreated
+    Last Transition Time:  2025-05-16T21:22:11Z
+    Message:               Scaling up MachineSet to 1 replicas (actual 0)
+    Reason:                ScalingUp
+    Severity:              Warning
+    Status:                False
+    Type:                  Resized
   Observed Generation:     1
-  Phase:                   ScalingUp
-  Selector:                cluster.x-k8s.io/cluster-name=gpu-cluster
-  Unavailable Replicas:    1
+  Selector:                cluster.x-k8s.io/cluster-name=gpu-cluster,machine-template-hash=2814603425-skzzp
   v1beta2:
     Available Replicas:  0
     Conditions:
-      Last Transition Time:  2025-05-16T21:22:11Z
-      Message:               0 available replicas, at least 1 required (spec.strategy.rollout.maxUnavailable is 0, spec.replicas is 1)
-      Observed Generation:   1
-      Reason:                NotAvailable
-      Status:                False
-      Type:                  Available
-      Last Transition Time:  2025-05-16T21:22:11Z
-      Message:               
-      Observed Generation:   1
-      Reason:                NotRollingOut
-      Status:                False
-      Type:                  RollingOut
       Last Transition Time:  2025-05-16T21:22:11Z
       Message:               
       Observed Generation:   1
@@ -104,7 +90,8 @@ Status:
       Status:                False
       Type:                  ScalingDown
       Last Transition Time:  2025-05-16T21:22:11Z
-      Message:               Scaling up from 0 to 1 replicas
+      Message:               Scaling up from 0 to 1 replicas is blocked because:
+* KubeadmControlPlane default/gpu-cluster-control-plane is provisioning ("ControlPlaneIsStable" preflight check failed)
       Observed Generation:   1
       Reason:                ScalingUp
       Status:                True
@@ -135,7 +122,4 @@ Status:
       Type:                  Deleting
     Ready Replicas:          0
     Up To Date Replicas:     0
-Events:
-  Type    Reason            Age   From                          Message
-  ----    ------            ----  ----                          -------
-  Normal  SuccessfulCreate  14m   machinedeployment-controller  Created MachineSet default/gpu-cluster-md-0-skzzp
+Events:                      <none>
