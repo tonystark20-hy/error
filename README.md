@@ -1,9 +1,9 @@
-howard@howard-vm:~$ kubectl get mutatingwebhookconfigurations
-NAME                                                        WEBHOOKS   AGE
-capi-kubeadm-bootstrap-mutating-webhook-configuration       2          6m59s
-capi-kubeadm-control-plane-mutating-webhook-configuration   2          6m56s
-capi-mutating-webhook-configuration                         9          7m1s
-capmaas-mutating-webhook-configuration                      3          6m53s
-cert-manager-webhook                                        1          8m40s
-mutating-webhook-configuration                              9          8m4s
-rancher.cattle.io       
+
+howard@howard-vm:~$ clusterctl generate cluster gpu-cluster --infrastructure=maas:v0.5.0 --kubernetes-version=1.32.4 --control-plane-machine-count=1 --worker-machine-count=1 | kubectl apply -f -
+maascluster.infrastructure.cluster.x-k8s.io/gpu-cluster created
+maasmachinetemplate.infrastructure.cluster.x-k8s.io/gpu-cluster-control-plane created
+maasmachinetemplate.infrastructure.cluster.x-k8s.io/gpu-cluster-md-0 created
+Error from server (InternalError): error when creating "STDIN": Internal error occurred: failed calling webhook "default.cluster.cluster.x-k8s.io": failed to call webhook: Post "https://capi-webhook-service.capi-system.svc:443/mutate-cluster-x-k8s-io-v1beta1-cluster?timeout=10s": dial tcp 10.104.250.224:443: connect: connection refused
+Error from server (InternalError): error when creating "STDIN": Internal error occurred: failed calling webhook "default.kubeadmcontrolplane.controlplane.cluster.x-k8s.io": failed to call webhook: Post "https://capi-kubeadm-control-plane-webhook-service.capi-kubeadm-control-plane-system.svc:443/mutate-controlplane-cluster-x-k8s-io-v1beta1-kubeadmcontrolplane?timeout=10s": dial tcp 10.108.19.103:443: connect: connection refused
+Error from server (InternalError): error when creating "STDIN": Internal error occurred: failed calling webhook "default.machinedeployment.cluster.x-k8s.io": failed to call webhook: Post "https://capi-webhook-service.capi-system.svc:443/mutate-cluster-x-k8s-io-v1beta1-machinedeployment?timeout=10s": dial tcp 10.104.250.224:443: connect: connection refused
+Error from server (InternalError): error when creating "STDIN": Internal error occurred: failed calling webhook "default.kubeadmconfigtemplate.bootstrap.cluster.x-k8s.io": failed to call webhook: Post "https://capi-kubeadm-bootstrap-webhook-service.capi-kubeadm-bootstrap-system.svc:443/mutate-bootstrap-cluster-x-k8s-io-v1beta1-kubeadmconfigtemplate?timeout=10s": dial tcp 10.105.141.151:443: connect: connection refused
